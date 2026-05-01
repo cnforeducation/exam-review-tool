@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语试卷互动讲评课件</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Microsoft YaHei','PingFang SC',sans-serif;background:#ecf0f1;color:#2c3e50;line-height:1.8}
+.outer{max-width:1400px;margin:0 auto;padding:12px 16px}
+.topbar{background:#fff;border-radius:8px;padding:10px 18px;margin-bottom:10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.mg{display:flex;gap:3px;background:#ecf0f1;border-radius:5px;padding:2px}
+.mb{padding:5px 14px;border:none;border-radius:4px;cursor:pointer;font-size:.82em;font-family:inherit;background:transparent;color:#555;transition:.2s}
+.mb.a{background:#3498db;color:#fff;font-weight:600}
+.mb.a::after{content:' ✓'}
+.sb{padding:5px 12px;background:#ecf0f1;border:none;border-radius:4px;cursor:pointer;font-family:inherit;color:#555}
+.sb:hover{background:#d5dbdb}
+.sb.a{background:#3498db;color:#fff}
+.tr{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.tt{padding:7px 14px;background:#fff;border:2px solid #e0e0e0;border-radius:6px;cursor:pointer;font-size:.82em;color:#555;font-family:inherit}
+.tt:hover{border-color:#3498db;color:#3498db}
+.tt.a{background:#3498db;color:#fff;border-color:#3498db}
+.bd{display:flex;gap:16px;height:calc(100vh - 130px);min-height:400px}
+.lp{flex:1.2;overflow-y:auto;padding:16px;background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.rp{flex:1;overflow-y:auto;padding:16px;background:#f8f9fa;border-radius:8px;border:1px solid #e0e0e0}
+body.sm .lp,body.sm .rp{font-size:13px}
+body.md .lp,body.md .rp{font-size:15px}
+body.lg .lp,body.lg .rp{font-size:17px}
+.sbr{display:none;align-items:center;gap:8px;margin-bottom:10px;padding:6px 10px;background:#fff;border-radius:6px;border:1px solid #e0e0e0}
+.sbr.s{display:flex}
+.art{font-size:1em;line-height:2.2;color:#333;white-space:pre-wrap;word-wrap:break-word}
+.bx{display:inline-block;min-width:34px;padding:0 6px;height:28px;line-height:26px;text-align:center;border:2px solid #3498db;border-radius:5px;margin:0 3px;vertical-align:middle;background:#fff;font-weight:700;color:#3498db;font-size:.9em}
+.bx.h{border-color:#27ae60;color:#27ae60;background:#e8f8f0;min-width:50px}
+.bx.r{border-color:#e74c3c;color:#e74c3c;background:#fdf2f2;min-width:50px}
+.bx.d{border:2px dashed #3498db;color:#3498db;min-width:34px}
+.hl{background:#fef08a;padding:1px 3px;border-radius:3px;font-weight:600}
+.cb{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#e74c3c;font-size:.65em;font-weight:700;margin:0 1px;vertical-align:middle;color:#fff}
+.qi{background:#fff;border-radius:6px;padding:10px 12px;margin-bottom:8px;border-left:4px solid #3498db}
+.qn{font-weight:700;margin-bottom:3px;font-size:.9em}
+.qs{font-size:.92em;color:#333;margin-bottom:5px;font-weight:500}
+.op{display:flex;flex-direction:column;gap:3px;margin-bottom:6px}
+.ot{padding:5px 8px;background:#f8f9fa;border:1px solid #e0e0e0;border-radius:4px;font-size:.88em}
+.ot.c{border-color:#27ae60;background:#e8f8f0;font-weight:600;color:#27ae60}
+.ot.w{opacity:.3;background:#f5f5f5}
+.an{margin-top:6px;padding:8px 10px;background:#fff;border-radius:5px;border:1px solid #e0e0e0}
+.sti{font-weight:600;color:#e74c3c;margin-bottom:3px;font-size:.85em}
+.stb{color:#555;line-height:1.7;font-size:.85em}
+.nt{font-weight:600;color:#e74c3c;margin-bottom:2px;font-size:.82em}
+.pb{margin-bottom:12px;padding:8px 12px;background:#fafbfc;border-radius:6px;border-left:3px solid #3498db}
+.pe{font-size:.95em;line-height:1.9;margin-bottom:5px}
+.pz{font-size:.86em;line-height:1.7;color:#555;padding:6px 8px;background:#f0f4f8;border-radius:4px;margin-top:5px;display:none}
+.pz.s{display:block}
+.ht{font-size:.75em;padding:2px 6px;background:#ecf0f1;color:#555;border:1px solid #bdc3c7;border-radius:3px;cursor:pointer;font-family:inherit}
+.ht:hover{background:#d5dbdb}
+.opti{display:inline-block;padding:2px 8px;background:#e74c3c;color:#fff;border-radius:3px;font-size:.75em;font-weight:600;margin-left:4px;vertical-align:middle}
+.mb{background:transparent;color:#555}
+.mb.a{background:#3498db;color:#fff}
+body.sm .bx{font-size:.82em;height:24px;line-height:22px;min-width:30px}
+body.lg .bx{font-size:1em;height:32px;line-height:30px;min-width:40px}
+</style>
+</head>
+<body class="md">
+<div class="outer">
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:12px;flex:1;flex-wrap:wrap;">
+    <span style="font-weight:600;color:#2c3e50;font-size:.9em;">2026年4月28日 试卷</span>
+    <div class="mg">
+      <button class="mb a" onclick="setMode('test')">试题模式</button>
+      <button class="mb" onclick="setMode('analysis')">讲解模式</button>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;">
+    <button class="sb" id="stepBtn" onclick="toggleStep()">分步</button>
+    <button class="sb" onclick="setFont('sm')">小</button>
+    <button class="sb" onclick="setFont('md')">中</button>
+    <button class="sb" onclick="setFont('lg')">大</button>
+    <span style="margin-left:6px;font-size:.72em;color:#95a5a6;white-space:nowrap;">制作人：Ning · 工具：Alice</span>
+  </div>
+</div>
+<div class="tr" id="tabRow"></div>
+<div class="bd">
+  <div class="lp" id="leftP"></div>
+  <div class="rp" id="rightP"></div>
+</div>
+</div>
+<script>
+const EXAM_DATA = {
+  title: "2025—2026学年光明区九年级第二次学业水平测试",
+  subtitle: "英语试题 · 互动讲评课件",
+  sections: [
+    {
+      id: "cloze",
+      name: "完形填空",
+      type: "cloze",
+      article: `This happened when I was a kid, but it's one of those moments that stuck with me for years.\n\nMy dad and I were at a <blank id="1"></blank> late in the evening. It was one of those quick "run in and get a few things" trips. I remember being tired while he <blank id="2"></blank>. When the cashier(收银员) rang everything up, my dad reached for his <blank id="3"></blank> and froze. He had forgotten it.\n\nI remember the look on his face because it wasn't just embarrassment (尴尬). There were a few people <blank id="4"></blank> behind us. He started <blank id="5"></blank> and said he'd have to leave the store there and come back later. At that time, a woman behind us in line stepped forward. She said, "It's okay. I'll pay for you." My dad immediately tried to <blank id="6"></blank> and told her she really didn't have to do that. She just smiled and said, "It's not a big deal. You can help someone else another day."\n\nThe whole thing took maybe thirty <blank id="7"></blank>. She paid, wished us a good night, and left before my dad could even really thank her properly. I remember sitting in the car afterward while my dad was <blank id="8"></blank> for a moment. Finally he broke the silence and said, "Remember that. When you can help someone someday, you do it."\n\nIt's funny because I don't remember what we bought that night. But I remember that moment <blank id="9"></blank>. And every once in a while, when I get the chance to make someone's day a little <blank id="10"></blank>, I think about that kind lady that night.`,
+      questions: [
+        {num: 1, stem: "", answer: "C", options: {A: "restaurant", B: "school", C: "store", D: "hospital"}, point: "名词词义辨析（语境推断）", analysis: "根据下文'When the cashier rang everything up'（收银员结账时）以及'leave the store'可知，父子二人是在商店里购物。", clueType: "context", clueText: "When the cashier(收银员) rang everything up... leave the store", clueWords: ["cashier", "store"], isCollocation: false, distractors: "A. restaurant 餐厅——无餐饮相关描述；B. school 学校——无学习场景；D. hospital 医院——无看病场景。"},
+        {num: 2, stem: "", answer: "C", options: {A: "looked around", B: "showed up", C: "checked out", D: "gave up"}, point: "动词短语辨析（语境推断）", analysis: "根据下文'When the cashier rang everything up'可知，父亲正在结账。check out 有'结账'之意。", clueType: "context", clueText: "When the cashier rang everything up", clueWords: ["cashier", "rang everything up"], isCollocation: false, distractors: "A. looked around 四处张望——未体现购物结算核心动作；B. showed up 出现——与 tired 搭配不自然；D. gave up 放弃——语义不通。"},
+        {num: 3, stem: "", answer: "D", options: {A: "bag", B: "key", C: "jacket", D: "wallet"}, point: "名词词义辨析（生活常识）", analysis: "收银员结账后，父亲需要付款。由'froze. He had forgotten it'可知，他忘带了付款工具。wallet最符合生活逻辑。", clueType: "context", clueText: "reached for his... and froze. He had forgotten it", clueWords: ["reached for", "froze", "forgotten"], isCollocation: false, distractors: "A. bag 购物袋——即使忘带也不影响付款；B. key 钥匙——与付款无关；C. jacket 夹克——不随身携带不影响结账。"},
+        {num: 4, stem: "", answer: "A", options: {A: "waiting", B: "talking", C: "shopping", D: "laughing"}, point: "动词词义辨析（语境推断）", analysis: "由'in line'（在队伍中）及'behind us'可知，商店里还有其他顾客在排队等待结账。", clueType: "context", clueText: "in line... behind us", clueWords: ["in line", "behind us"], isCollocation: false, distractors: "B. talking 交谈——排队时可能交谈，但非核心动作；C. shopping 购物——已在收银台，非购物中；D. laughing 大笑——与父亲尴尬的场景形成反差。"},
+        {num: 5, stem: "", answer: "D", options: {A: "crying", B: "complaining", C: "shouting", D: "apologizing"}, point: "动词词义辨析（情感态度）", analysis: "父亲忘带钱包，无法付款，面对后面排队的人，他感到尴尬，于是开始'道歉'。", clueType: "context", clueText: "said he'd have to leave the store there and come back later", clueWords: ["leave the store", "come back later"], isCollocation: false, distractors: "A. crying 哭泣——程度过重；B. complaining 抱怨——与后文女士主动帮忙的善意形成不自然对比；C. shouting 大喊——不符合公共场合礼仪。"},
+        {num: 6, stem: "", answer: "B", options: {A: "stay", B: "refuse", C: "agree", D: "follow"}, point: "动词词义辨析（情感态度）", analysis: "当陌生女士主动提出帮忙付款时，父亲作为成年人自然会感到不好意思，于是立刻试图'拒绝'。", clueType: "context", clueText: "told her she really didn't have to do that", clueWords: ["didn't have to"], isCollocation: false, distractors: "A. stay 停留——语义不连贯；C. agree 同意——若同意则无需'told her she really didn't have to do that'；D. follow 跟随——逻辑不通。"},
+        {num: 7, stem: "", answer: "C", options: {A: "hours", B: "minutes", C: "seconds", D: "days"}, point: "名词词义辨析（常识判断）", analysis: "由'She paid, wished us a good night, and left before my dad could even really thank her properly'可知，付款过程非常迅速，仅仅三十'秒'最符合实际。", clueType: "context", clueText: "She paid... and left before my dad could even really thank her properly", clueWords: ["paid", "left before", "thank her properly"], isCollocation: false, distractors: "A. hours 小时——时间过长；B. minutes 分钟——付款过程通常无需30分钟；D. days 天——明显荒谬。"},
+        {num: 8, stem: "", answer: "D", options: {A: "excited", B: "alone", C: "worried", D: "quiet"}, point: "形容词词义辨析（情感态度）", analysis: "由'Finally he broke the silence'（最终他打破了沉默）可知，父亲之前一直'沉默'着。", clueType: "context", clueText: "Finally he broke the silence", clueWords: ["broke the silence"], isCollocation: false, distractors: "A. excited 兴奋——与忘带钱包的尴尬经历不符；B. alone 独自——作者也在车里；C. worried 担忧——事情已解决，无需担忧。"},
+        {num: 9, stem: "", answer: "B", options: {A: "badly", B: "perfectly", C: "carefully", D: "painfully"}, point: "副词词义辨析（情感态度）", analysis: "由前文'I don't remember what we bought that night. But...'可知，前后形成转折：不记得买了什么，但'清晰地'记得那一刻。", clueType: "context", clueText: "I don't remember what we bought that night. But I remember that moment...", clueWords: ["don't remember", "But", "remember that moment"], isCollocation: false, distractors: "A. badly 糟糕地——与作者对善举的感激态度相反；C. carefully 仔细地——修饰'记住'不如 perfectly 自然；D. painfully 痛苦地——无负面情感。"},
+        {num: 10, stem: "", answer: "A", options: {A: "easier", B: "busier", C: "harder", D: "longer"}, point: "形容词词义辨析（主旨升华）", analysis: "由前文女士的善举让父子二人渡过难关可知，作者现在也想帮助他人，让别人的一天变得'更轻松、更美好'。", clueType: "context", clueText: "When you can help someone someday, you do it... make someone's day a little...", clueWords: ["help someone", "make someone's day"], isCollocation: false, distractors: "B. busier 更忙——非积极结果；C. harder 更难——与善意帮助相反；D. longer 更长——语义不通。"}
+      ]
+    },
+    {
+      id: "reading_a",
+      name: "阅读A",
+      type: "reading",
+      paragraphs: [
+        {en: "China's Gen Z is turning travel into a non-stop challenge. Oneone Han and Pipi Tang landed in Hong Kong before the sun came up. They took a quick shower in the airport bathroom, their eyes still heavy from the red-eye flight. By 6 a.m., they were already rushing out to their first attraction, full of energy. With just two days and a limited budget, they hit 14 popular places and spent only about $360 in total.", zh: "中国的Z世代正在将旅行变成一场不间断的挑战。韩一一和唐皮皮在太阳升起之前就降落在了香港。他们在机场浴室快速冲了个澡，眼睛里还满是红眼航班带来的疲惫。到了早上6点，他们已经精力充沛地冲向第一个景点。仅用两天时间和有限的预算，他们打卡了14个热门景点，总共只花了大约360美元。"},
+        {en: "This intense way of traveling is known as \"special forces\" travel. It is named after elite military units that value speed and smart planning. Young travelers love it because it allows them to visit as many places as possible in a short, low-cost trip.", zh: "这种高强度的旅行方式被称为'特种兵式旅游'。它以重视速度和巧妙规划的精锐部队命名。年轻旅行者喜欢这种方式，因为它让他们能够在短时间、低成本的旅行中游览尽可能多的地方。"},
+        {en: "Most people make their trip work with the help of China's high-speed rail network. Taking overnight sleeper trains saves money on hotels and keeps the daytime free for sightseeing. Besides, on social media platforms, people share useful and detailed tips. They list the fastest subway lines, the best free photo spots, and cheap snacks from convenience stores. Some share places to rest overnight, like 24-hour McDonald's. Following this tip, Lin Dan slept one night at McDonald's although she said it felt too uncomfortable to do it again.", zh: "大多数人借助中国的高铁网络来完成他们的旅行。乘坐夜间卧铺列车可以节省酒店费用，并将白天留给观光。此外，在社交媒体平台上，人们分享有用且详细的攻略。他们列出最快的地铁线路、最佳的免费拍照点，以及便利店里的便宜小吃。有些人还分享过夜的休息地点，比如24小时营业的麦当劳。循着这条攻略，林丹在麦当劳睡了一晚，不过她说那感觉太不舒服了，不会再尝试。"},
+        {en: "Experts say \"special forces\" travel comes from busy lives, limited budgets, and a strong wish to embrace new experiences right away. Young people want to make good memories today instead of waiting for the future. \"Attractions should offer more choices, such as self-guided walks,\" said experts. Some areas are already redesigning their travel plans to better suit this young, energetic crowd.", zh: "专家表示，'特种兵式旅游'源于忙碌的生活、有限的预算，以及想要立即拥抱新体验的强烈愿望。年轻人想要今天就留下美好的回忆，而不是等待未来。专家说：'景点应该提供更多选择，比如自助漫步。'一些地区已经在重新设计旅行方案，以更好地适应这群年轻、充满活力的游客。"}
+      ],
+      article: `China's Gen Z is turning travel into a non-stop challenge. Oneone Han and Pipi Tang landed in Hong Kong before the sun came up. They took a quick shower in the airport bathroom, their eyes still heavy from the red-eye flight. By 6 a.m., they were already rushing out to their first attraction, full of energy. With just two days and a limited budget, they hit 14 popular places and spent only about $360 in total.\n\nThis intense way of traveling is known as "special forces" travel. It is named after elite military units that value speed and smart planning. Young travelers love it because it allows them to visit as many places as possible in a short, low-cost trip.\n\nMost people make their trip work with the help of China's high-speed rail network. Taking overnight sleeper trains saves money on hotels and keeps the daytime free for sightseeing. Besides, on social media platforms, people share useful and detailed tips. They list the fastest subway lines, the best free photo spots, and cheap snacks from convenience stores. Some share places to rest overnight, like 24-hour McDonald's. Following this tip, Lin Dan slept one night at McDonald's although she said it felt too uncomfortable to do it again.\n\nExperts say "special forces" travel comes from busy lives, limited budgets, and a strong wish to embrace new experiences right away. Young people want to make good memories today instead of waiting for the future. "Attractions should offer more choices, such as self-guided walks," said experts. Some areas are already redesigning their travel plans to better suit this young, energetic crowd.`,
+      questions: [
+        {num: 11, stem: "What did Han and Tang do during the non-stop challenge?", answer: "C", options: {A: "They saved about $360 in total.", B: "They landed in Hong Kong after sunrise.", C: "They visited 14 popular places in just two days.", D: "They took a quick shower in the railway bathroom."}, point: "细节理解题", analysis: "根据第一段最后一句'With just two days and a limited budget, they hit 14 popular places and spent only about $360 in total.'可知，韩和唐在两天内游览了14个热门景点。", evidence: "With just two days and a limited budget, they hit 14 popular places and spent only about $360 in total.", evidenceKeywords: ["hit 14 popular places", "two days"], distractors: "A项'saved about $360'与原文'spent only about $360'不符；B项'after sunrise'与'before the sun came up'相反；D项'railway bathroom'与'airport bathroom'不符。"},
+        {num: 12, stem: "What does the underlined word \"intense\" mean?", answer: "A", options: {A: "Busy.", B: "Strange.", C: "Fun.", D: "Simple."}, point: "词义猜测题", analysis: "根据上下文，这种旅行方式'两天14个景点、凌晨开始、低成本'，特点是高密度、快节奏。intense 意为'密集的、紧张的'，与 busy 最接近。", evidence: "全文第一段和第二段对'特种兵'式旅行的描述：两天14个景点、凌晨降落、6点出发、高密度打卡", evidenceKeywords: ["14 popular places", "two days", "before the sun came up", "By 6 a.m."], distractors: "B. strange——文章语气是客观描述，无'奇怪'之意；C. fun——虽可能有趣，但非该词核心含义；D. simple——与'特种兵'式复杂规划相反。"},
+        {num: 13, stem: "What makes \"special forces\" travel possible according to the passage?", answer: "D", options: {A: "Low-cost food and beautiful views.", B: "24-hour McDonald's and cheap hotels.", C: "Fast subway lines and free photo spots.", D: "China's railway system and tips online."}, point: "细节理解题", analysis: "根据第三段，'Most people make their trip work with the help of China's high-speed rail network.'（高铁网络）以及'on social media platforms, people share useful and detailed tips'（网上攻略）是两个主要支撑条件。", evidence: "Most people make their trip work with the help of China's high-speed rail network... on social media platforms, people share useful and detailed tips", evidenceKeywords: ["high-speed rail network", "social media platforms", "detailed tips"], distractors: "A. 低价食物和美景——非主要原因；B. 24小时麦当劳和便宜酒店——是细节，非核心支撑；C. 快速地铁和免费拍照点——是社交媒体上分享的具体攻略，属于tips的一部分，不全面。"},
+        {num: 14, stem: "What do the experts suggest in the last paragraph?", answer: "D", options: {A: "Young people should wait for the future.", B: "More areas should be designed for the young.", C: "The young should take more self-guided walks.", D: "Changes should be made to meet young travelers' needs."}, point: "推理判断题/观点态度题", analysis: "最后一段专家建议'Attractions should offer more choices'，且提到'Some areas are already redesigning their travel plans to better suit this young, energetic crowd.'，即景点应做出改变以满足年轻旅行者需求。", evidence: "Attractions should offer more choices, such as self-guided walks... Some areas are already redesigning their travel plans to better suit this young, energetic crowd.", evidenceKeywords: ["offer more choices", "redesigning", "better suit"], distractors: "A. 等待未来——与原文'instead of waiting for the future'相反；B. 更多区域为年轻人设计——偷换概念，是'redesigning travel plans'；C. 更多自助漫步——是具体例子，不是专家完整建议。"},
+        {num: 15, stem: "Which is the best title for this passage?", answer: "B", options: {A: "Traveling by Airplanes", B: "Seeing the World at High Speed", C: "Taking a Break from Busy Lives", D: "Having a Good Day in Hong Kong"}, point: "主旨大意题（标题归纳）", analysis: "文章围绕'特种兵式旅游'展开，核心是高速度、高密度、低成本地游览多地。B项'Seeing the World at High Speed'准确概括了这一新兴旅行方式。", evidence: "全文围绕'special forces travel'展开，强调speed、smart planning、non-stop challenge", evidenceKeywords: ["special forces", "speed", "high speed"], distractors: "A. 乘飞机旅行——片面；C. 从繁忙生活中休息——与'特种兵'式 busy 旅行矛盾；D. 在香港度过美好一天——仅是开头举例，非全文主旨。"}
+      ]
+    },
+    {
+      id: "reading_b",
+      name: "阅读B",
+      type: "reading",
+      paragraphs: [
+        {en: "Nowadays, many people are using AI to find out their medical problems and help them decide when to see a doctor. AI companies have even developed chatbots that focus on such problems, and some have passed medical exams that human doctors take. However, a new study, led by experts at Oxford University and the Oxford Internet Institute in England, shows that AI chatbots aren't very useful when a real person asks for help.", zh: "如今，许多人正在使用AI来了解自己的健康问题，并帮助他们决定何时去看医生。AI公司甚至开发了专注于这类问题的聊天机器人，其中一些还通过了人类医生参加的医学考试。然而，牛津大学和英国牛津互联网研究所的专家主导的一项新研究表明，当真实的人寻求帮助时，AI聊天机器人并不是很有用。"},
+        {en: "Almost 1,300 people took part in the study. Each was given certain health problems, including a list of symptoms and a medical history. For example, one person was told to pretend they had a headache. Then, the people were divided into two groups. One group could ask AI to find out their illness and decide what to do next. The other group used the internet and Google to do the same thing. Real doctors then checked whether the volunteers made the right decisions.", zh: "近1300人参与了这项研究。每个人都被告知了特定的健康问题，包括一系列症状和病史。例如，有一个人被要求假装自己头痛。然后，参与者被分成两组。一组可以向AI询问自己的病情并决定下一步该怎么做。另一组则使用互联网和谷歌来做同样的事情。随后，真正的医生检查了志愿者们是否做出了正确的决定。"},
+        {en: "The results of the study showed that less than half of the AI users did the right thing. In only one-third of the cases, the AI correctly found the problem. In fact, the AI's advice was even no better than just using Google.", zh: "研究结果显示，不到一半的AI用户做出了正确的选择。在仅有三分之一的案例中，AI正确发现了问题。事实上，AI的建议甚至并不比仅仅使用谷歌好多少。"},
+        {en: "\"AI just isn't ready to take on the role of a medical expert,\" said Dr Rebecca Payne, one of the authors of the study. She said that asking an AI for health advice can be dangerous. They might give wrong information and fail to recognize when immediate help is needed. \"We hope this work will contribute to the development of safer and more useful AI systems,\" said Andrew Bean, who led the study.", zh: "'AI还没有准备好扮演医学专家的角色，'研究报告作者之一丽贝卡·佩恩博士说。她表示，向AI寻求健康建议可能是危险的。它们可能提供错误信息，并且无法识别何时需要立即就医。'我们希望这项工作能为更安全、更有用的AI系统的发展做出贡献，'该研究的负责人安德鲁·比恩说。"}
+      ],
+      article: `Nowadays, many people are using AI to find out their medical problems and help them decide when to see a doctor. AI companies have even developed chatbots that focus on such problems, and some have passed medical exams that human doctors take. However, a new study, led by experts at Oxford University and the Oxford Internet Institute in England, shows that AI chatbots aren't very useful when a real person asks for help.\n\nAlmost 1,300 people took part in the study. Each was given certain health problems, including a list of symptoms and a medical history. For example, one person was told to pretend they had a headache. Then, the people were divided into two groups. One group could ask AI to find out their illness and decide what to do next. The other group used the internet and Google to do the same thing. Real doctors then checked whether the volunteers made the right decisions.\n\nThe results of the study showed that less than half of the AI users did the right thing. In only one-third of the cases, the AI correctly found the problem. In fact, the AI's advice was even no better than just using Google.\n\n"AI just isn't ready to take on the role of a medical expert," said Dr Rebecca Payne, one of the authors of the study. She said that asking an AI for health advice can be dangerous. They might give wrong information and fail to recognize when immediate help is needed. "We hope this work will contribute to the development of safer and more useful AI systems," said Andrew Bean, who led the study.`,
+      questions: [
+        {num: 16, stem: "What do people use AI to do according to Paragraph 1?", answer: "D", options: {A: "To develop chatbots.", B: "To carry out a study.", C: "To pass medical exams.", D: "To make health decisions."}, point: "细节理解题", analysis: "根据第一段'Nowadays, many people are using AI to find out their medical problems and help them decide when to see a doctor.'可知，人们用AI来辅助做出健康决策。", evidence: "Nowadays, many people are using AI to find out their medical problems and help them decide when to see a doctor.", evidenceKeywords: ["find out their medical problems", "help them decide"], distractors: "A. 开发聊天机器人——是AI公司的行为；B. 开展研究——是专家的行为；C. 通过医学考试——是部分聊天机器人的表现，均非'人们'使用AI的目的。"},
+        {num: 17, stem: "What is Paragraph 2 mainly about?", answer: "A", options: {A: "The steps of the study.", B: "The people attending the study.", C: "The tools used in the study.", D: "The common health problems."}, point: "段落大意题", analysis: "第二段依次介绍了：近1300人参与→每人被赋予特定健康问题→分为两组（AI组 vs 谷歌组）→医生核查决策是否正确。这是典型的'研究步骤/过程'描述。", evidence: "全段：Almost 1,300 people took part... Each was given... divided into two groups... Real doctors then checked...", evidenceKeywords: ["took part", "given", "divided into", "checked"], distractors: "B. 参与人员——仅为开头信息；C. 使用工具——仅为分组信息；D. 常见健康问题——仅为背景设定。"},
+        {num: 18, stem: "What can we infer from the study results?", answer: "C", options: {A: "AI chatbots should be stopped using soon.", B: "Google is useless in solving health problems.", C: "People shouldn't depend on AI for medical advice.", D: "AI performed better than human doctors in the study."}, point: "推理判断题", analysis: "根据研究结果：'less than half of the AI users did the right thing'、'In only one-third of the cases, the AI correctly found the problem'、'AI's advice was even no better than just using Google'，可推断人们不应依赖AI获取医疗建议。", evidence: "less than half of the AI users did the right thing... In only one-third of the cases... AI's advice was even no better than just using Google", evidenceKeywords: ["less than half", "one-third", "no better than"], distractors: "A. 立即停用——过于绝对；B. 谷歌无用——原文说AI不比谷歌好，即谷歌同样有一定作用；D. AI优于医生——与原文相反。"},
+        {num: 19, stem: "Why are Andrew Bean's words mentioned in Paragraph 4?", answer: "A", options: {A: "To show his hope for the future.", B: "To show his worry about the study.", C: "To show his agreement with Dr Payne.", D: "To show his dissatisfaction with the work."}, point: "写作意图题", analysis: "Andrew Bean的话'We hope this work will contribute to the development of safer and more useful AI systems'明确表达了对未来的期望。", evidence: "We hope this work will contribute to the development of safer and more useful AI systems", evidenceKeywords: ["hope", "contribute", "safer and more useful"], distractors: "B. 担忧——语气积极；C. 同意——虽是事实，但引述目的非为表示同意，而是表达希望；D. 不满——与原文积极态度相反。"},
+        {num: 20, stem: "In which part of the newspaper could this passage be found?", answer: "B", options: {A: "Business.", B: "Science.", C: "Fashion.", D: "Education."}, point: "文章出处题", analysis: "本文是关于AI医疗聊天机器人的科学研究报告，涉及牛津大学的研究数据、实验结果和专家观点，最可能出现在报纸的'科学'版块。", evidence: "a new study, led by experts at Oxford University... The results of the study showed...", evidenceKeywords: ["study", "Oxford University", "results"], distractors: "A. Business——非商业话题；C. Fashion——与时尚无关；D. Education——非教育主题。"}
+      ]
+    },
+    {
+      id: "reading_c",
+      name: "阅读C",
+      type: "reading",
+      paragraphs: [
+        {en: "On March 21, 26 international students from Shenzhen University visited the OCT Wetland Park, exploring a key resting site for migratory birds in central Shenzhen. This event was the start of the 2026 \"APEC China Year: International Students in Ecological Shenzhen\" program. By bringing together young people from around the world to take part in hands-on science activities, the program aims to encourage the exchange of ideas on environmental protection.", zh: "3月21日，来自深圳大学的26名国际学生参观了华侨城湿地公园，探索深圳中部一个重要的候鸟栖息地。此次活动是2026年'APEC中国年：国际学生在生态深圳'项目的开端。通过将来自世界各地的年轻人聚集在一起参与动手科学活动，该项目旨在促进环境保护理念的交流。"},
+        {en: "At the wetland's ecology exhibition hall, environmental volunteer educator Xie Yunwen gave a detailed introduction to wetland ecology. From her talk, students learned about how mangroves survive with unique methods. Her presentation also covered successful efforts to protect bird populations. To help students understand how city ecological spaces can be rebuilt and taken good care of, she talked about the development of the OCT wetland as well.", zh: "在湿地公园的生态展示厅，环保志愿者讲师谢云雯详细介绍了湿地生态。通过她的讲解，学生们了解到红树林如何以独特的方式生存。她的讲座还涵盖了保护鸟类种群的成功努力。为了帮助学生理解城市生态空间如何被重建和妥善管理，她还谈到了华侨城湿地的发展历程。"},
+        {en: "After the exhibition, students were divided into two groups for an outdoor birdwatching activity. Guided by volunteer educators Chen Hui-ting and He Zhanzhi, they observed and recorded the nesting and feeding behaviors of more than 10 wetland bird types.", zh: "展览结束后，学生们被分成两组进行户外观鸟活动。在志愿者讲师陈惠婷和何展志的带领下，他们观察并记录了10多种湿地鸟类的筑巢和觅食行为。"},
+        {en: "During the discussion, students connected the day's learning with their own environmental experiences. Yulia, a student from Russia, compared waste-sorting rules across different countries and suggested that for ordinary people, we should begin by reducing plastic use. Milana, another Russian student with experience in bird research in Northern Europe, said that the OCT wetland offers excellent conditions for bird protection.", zh: "在讨论环节中，学生们将当天的所学与自己的环保经历联系起来。来自俄罗斯的学生Yulia比较了不同国家的垃圾分类规则，并建议对于普通人来说，我们应该从减少塑料使用开始。另一位来自俄罗斯的学生Milana拥有北欧鸟类研究经验，她表示华侨城湿地为鸟类保护提供了极佳的条件。"},
+        {en: "According to the organizers, the series will continue through November. Future visits will be timed to mark major international milestones, including World Earth Day and World Environment Day.", zh: "据主办方介绍，该系列活动将持续到11月。未来的参观将恰逢重大国际里程碑时刻，包括世界地球日和世界环境日。"}
+      ],
+      article: `On March 21, 26 international students from Shenzhen University visited the OCT Wetland Park, exploring a key resting site for migratory birds in central Shenzhen. This event was the start of the 2026 "APEC China Year: International Students in Ecological Shenzhen" program. By bringing together young people from around the world to take part in hands-on science activities, the program aims to encourage the exchange of ideas on environmental protection.\n\nAt the wetland's ecology exhibition hall, environmental volunteer educator Xie Yunwen gave a detailed introduction to wetland ecology. From her talk, students learned about how mangroves survive with unique methods. Her presentation also covered successful efforts to protect bird populations. To help students understand how city ecological spaces can be rebuilt and taken good care of, she talked about the development of the OCT wetland as well.\n\nAfter the exhibition, students were divided into two groups for an outdoor birdwatching activity. Guided by volunteer educators Chen Hui-ting and He Zhanzhi, they observed and recorded the nesting and feeding behaviors of more than 10 wetland bird types.\n\nDuring the discussion, students connected the day's learning with their own environmental experiences. Yulia, a student from Russia, compared waste-sorting rules across different countries and suggested that for ordinary people, we should begin by reducing plastic use. Milana, another Russian student with experience in bird research in Northern Europe, said that the OCT wetland offers excellent conditions for bird protection.\n\nAccording to the organizers, the series will continue through November. Future visits will be timed to mark major international milestones, including World Earth Day and World Environment Day.`,
+      questions: [
+        {num: 21, stem: "What can we learn about the program from Paragraph 1?", answer: "A", options: {A: "Its purpose.", B: "Its problem.", C: "Its requirement.", D: "Its development."}, point: "细节理解题", analysis: "第一段最后一句'the program aims to encourage the exchange of ideas on environmental protection'明确说明了该项目的目的（purpose）。", evidence: "the program aims to encourage the exchange of ideas on environmental protection", evidenceKeywords: ["aims to", "encourage the exchange"], distractors: "B. 问题——未提及；C. 要求——未提及；D. 发展——是后文信息。"},
+        {num: 22, stem: "What is Paragraph 2 mainly about?", answer: "B", options: {A: "The history of the OCT Wetland.", B: "The topics Xie covered in her talk.", C: "The introduction of the exhibition hall.", D: "The different ways mangroves survive."}, point: "段落大意题", analysis: "第二段按顺序介绍了谢云雯讲解的内容：湿地生态、红树林独特生存方式、鸟类保护成果、华侨城湿地的发展过程。这些都是她讲座中'涵盖的主题'。", evidence: "gave a detailed introduction to wetland ecology... how mangroves survive... successful efforts to protect bird populations... the development of the OCT wetland", evidenceKeywords: ["introduction to wetland ecology", "how mangroves survive", "protect bird populations"], distractors: "A. 历史——仅一部分；C. 展厅介绍——是地点，非内容；D. 红树林生存方式——仅一部分。"},
+        {num: 23, stem: "What does the underlined word \"they\" refer to?", answer: "C", options: {A: "Wetland bird types.", B: "Volunteer educators.", C: "International students.", D: "Nesting and feeding behaviors."}, point: "代词指代题", analysis: "根据前文'students were divided into two groups... Guided by volunteer educators... they observed...'，they 指代的是前文的主语 students（即 international students）。", evidence: "students were divided into two groups for an outdoor birdwatching activity. Guided by volunteer educators... they observed and recorded...", evidenceKeywords: ["students", "Guided by volunteer educators", "they observed"], distractors: "A. 湿地鸟类类型——是观察对象；B. 志愿者教育工作者——是引导者；D. 筑巢和觅食行为——是观察内容。"},
+        {num: 24, stem: "How should ordinary people protect the environment according to Yulia?", answer: "C", options: {A: "By researching bird protection.", B: "By learning waste-sorting rules.", C: "By using fewer plastic products.", D: "By comparing wetland conditions."}, point: "细节理解题", analysis: "根据第四段Yulia的话'we should begin by reducing plastic use'可知，普通人应从减少塑料使用做起。", evidence: "Yulia... suggested that for ordinary people, we should begin by reducing plastic use", evidenceKeywords: ["ordinary people", "reducing plastic use"], distractors: "A. 研究鸟类保护——是Milana的行为；B. 学习垃圾分类规则——是她比较的内容，非建议；D. 比较湿地条件——未提及。"},
+        {num: 25, stem: "What is the structure of the text?", answer: "（见解析）", options: {A: "Structure A", B: "Structure B", C: "Structure C", D: "Structure D"}, point: "篇章结构题", analysis: "文章结构：第一段总起（介绍活动背景与目的）；第二、三、四段分述（展厅介绍、户外观鸟、学生讨论）；第五段总结（活动将持续至11月）。全文为'总—分—总'结构。具体选项需对照试卷图示选择。", evidence: "全文结构：总（第1段）→ 分（第2-4段）→ 总（第5段）", evidenceKeywords: ["start", "detailed introduction", "divided into", "continue"], distractors: ""}
+      ]
+    },
+    {
+      id: "restore",
+      name: "还原句子",
+      type: "restore",
+      paragraphs: [
+        {en: "Saving money can be challenging for teenagers, especially when there are so many things to spend it on. Therefore, learning to save is an important skill. <blank id=\"26\"></blank>", zh: "对青少年来说，存钱可能很有挑战性，尤其是有那么多东西可以买。因此，学会储蓄是一项重要的技能。"},
+        {en: "Opening a savings account is a smart first step. <blank id=\"27\"></blank> What makes it even better is that some accounts offer high interest rates(利率), which means the bank pays you just for keeping your money there. To open one, you may need a parent to go to the bank with you.", zh: "开设储蓄账户是明智的第一步。有些账户提供高利率，这意味着银行会因为你把钱存在那里而付给你利息。要开户，你可能需要父母陪你去银行。"},
+        {en: "Another effective way is to stop yourself from buying things immediately. It's easy to see something you like and want to buy it right away. <blank id=\"28\"></blank> That is, write down the product, its price, and the date, then wait a full month before deciding to buy it. By doing so, you will turn a sudden want into a thoughtful choice.", zh: "另一个有效的方法是阻止自己立刻买东西。很容易看到喜欢的东西就想马上买。也就是说，写下产品、价格和日期，然后等整整一个月再决定是否购买。这样做，你会把一时冲动变成深思熟虑的选择。"},
+        {en: "<blank id=\"29\"></blank> For example, if you earn ¥15, put ¥5 directly into savings. This method allows you to enjoy the rest while still building your savings for future goals. If you are saving for something big, you can choose to save even more.", zh: "例如，如果你赚了15元，直接把5元存入储蓄。这个方法让你在享受剩下的钱的同时，仍然为未来的目标积累储蓄。如果你在存钱买大件东西，你可以选择存更多。"},
+        {en: "Finally, to have money to save, you need to make money. You can sell your old books and toys at the local flea market. You can also ask your parents if you can earn money by doing chores, such as washing the dishes or sweeping the floor. <blank id=\"30\"></blank>", zh: "最后，要有钱存，你需要赚钱。你可以在当地的跳蚤市场卖旧书和玩具。你也可以问问父母，你是否可以通过做家务来赚钱，比如洗碗或扫地。"}
+      ],
+      options: [
+        {id: "A", text: "When this idea pops up, try the '30-day rule.'"},
+        {id: "B", text: "Here are several practical ways to start saving."},
+        {id: "C", text: "A savings account keeps your money safe in a bank."},
+        {id: "D", text: "You'll surely feel satisfied if you pay for it immediately."},
+        {id: "E", text: "Moreover, save at least one-third of your money as soon as you receive it."},
+        {id: "F", text: "Both ways not only provide income but also give you valuable experience."}
+      ],
+      answers: [
+        {blank: 26, answer: "B", analysis: "前文提出'学会储蓄是一项重要技能'，后文依次介绍具体方法。B项'Here are several practical ways to start saving.'承上启下，是典型的总分结构总起句。", clueType: "topic_sentence", clueBefore: "Therefore, learning to save is an important skill.", clueAfter: "Opening a savings account is a smart first step. Another effective way is... Finally...", clueKeywords: ["several practical ways", "start saving"]},
+        {blank: 27, answer: "C", analysis: "本段主题是'Opening a savings account'，C项紧承该主题，解释储蓄账户的基本功能，与后文'What makes it even better...'形成递进。", clueType: "topic_sentence", clueBefore: "Opening a savings account is a smart first step.", clueAfter: "What makes it even better is that some accounts offer high interest rates", clueKeywords: ["savings account", "keeps your money safe"]},
+        {blank: 28, answer: "A", analysis: "前文说'看到喜欢的东西就想立刻买'，A项'When this idea pops up'中的'this idea'正好指代'想买某物'这一念头，后文紧接着解释'30-day rule'的具体操作。", clueType: "pronoun_reference", clueBefore: "It's easy to see something you like and want to buy it right away.", clueAfter: "That is, write down the product, its price, and the date, then wait a full month", clueKeywords: ["this idea", "30-day rule", "wait a full month"]},
+        {blank: 29, answer: "E", analysis: "前文介绍了'储蓄账户'和'30天规则'两种方法，E项以 Moreover 引出第三种方法，与后文'if you earn ¥15, put ¥5 directly into savings'形成完美对应。", clueType: "logic_connector", clueBefore: "Another effective way is to stop yourself from buying things immediately.", clueAfter: "if you earn ¥15, put ¥5 directly into savings", clueKeywords: ["Moreover", "one-third", "put ¥5 directly into savings"]},
+        {blank: 30, answer: "F", analysis: "前文提到两种赚钱方式：卖旧书和玩具、做家务赚钱。F项'Both ways'正好指代这两种方式，起到总结作用。", clueType: "summarize", clueBefore: "You can sell your old books and toys... You can also ask your parents if you can earn money by doing chores", clueAfter: "", clueKeywords: ["Both ways", "income", "valuable experience"]}
+      ]
+    },
+    {
+      id: "match",
+      name: "信息匹配",
+      type: "match",
+      left: [
+        {id: "Sophia", num: 31, text: "Sophia wants to draw Chinese flowers with brush and ink.", zh: "Sophia想用毛笔和墨水画中国花卉。"},
+        {id: "Leo", num: 32, text: "Leo hopes to make festive patterns with paper and scissors.", zh: "Leo希望用纸和剪刀制作节日图案。"},
+        {id: "Clara", num: 33, text: "Clara wishes to learn opera makeup skills and stage actions.", zh: "Clara想学习戏曲化妆技巧和舞台动作。"},
+        {id: "Jake", num: 34, text: "Jake expects to learn to play a traditional Chinese instrument.", zh: "Jake希望学习演奏一种中国传统乐器。"},
+        {id: "Tony", num: 35, text: "Tony plans to make traditional Chinese figures with soft clay.", zh: "Tony计划用软陶制作中国传统人物。"}
+      ],
+      right: [
+        {id: "A", title: "Paper Cutting", text: "A classic Chinese handicraft for festivals. You will learn to cut flowers, animals and lucky patterns with only red paper and scissors. No basic skills are needed for beginners.", zh: "一种经典的节日中国手工艺。你将学习用红纸和剪刀剪出花卉、动物和吉祥图案。初学者无需基础。"},
+        {id: "B", title: "Chinese Ink Painting", text: "This course teaches basic brush and ink skills. We focus on traditional themes like Chinese flowers, birds and simple landscapes, suitable for painting lovers of all levels.", zh: "本课程教授基本的笔墨技巧。我们专注于中国花卉、鸟类和简单山水等传统主题，适合各级绘画爱好者。"},
+        {id: "C", title: "Kite Making", text: "This traditional Chinese handicraft course guides you to make well-designed kites with attractive patterns. It is ideal for beginners and you can keep your own kite.", zh: "这门传统中国手工艺课程指导你制作设计精美、图案吸引人的风筝。适合初学者，你可以保留自己的风筝。"},
+        {id: "D", title: "Clay Figure Making", text: "You will learn to shape clay into traditional Chinese figures and small animals. We will also teach you to paint them with bright traditional colors, easy for 3D craft lovers.", zh: "你将学习用陶土塑造中国传统人物和小动物。我们还会教你用鲜艳的传统色彩为它们上色，适合3D手工爱好者。"},
+        {id: "E", title: "Peking Opera", text: "A fun course for opera beginners. You can learn to draw simple Peking Opera facial makeup and practice basic stage movements and postures.", zh: "一门适合戏曲初学者的趣味课程。你可以学习绘制简单的京剧脸谱，并练习基本的舞台动作和姿势。"},
+        {id: "F", title: "Guzheng Playing", text: "A beginner-friendly course for this traditional Chinese string instrument. You will learn basic playing skills and can play simple soft folk melodies after a short time.", zh: "一门适合初学者的传统中国弦乐器课程。你将学习基本演奏技巧，短时间内就能弹奏简单柔和的民间曲调。"}
+      ],
+      answers: [
+        {person: "Sophia", match: "B", analysis: "Sophia想'the basic brush and ink skills... draw Chinese flowers'，与B项 Chinese Ink Painting 中的'teaches basic brush and ink skills... focus on traditional themes like Chinese flowers'完全对应。", matchKeywords: {left: ["draw Chinese flowers", "brush and ink"], right: ["brush and ink skills", "Chinese flowers"]}},
+        {person: "Leo", match: "A", analysis: "Leo希望'make festive patterns with paper and scissors'，与A项 Paper Cutting 中的'cut flowers, animals and lucky patterns with only red paper and scissors'完全对应。", matchKeywords: {left: ["festive patterns", "paper and scissors"], right: ["lucky patterns", "red paper and scissors"]}},
+        {person: "Clara", match: "E", analysis: "Clara想'learn opera makeup skills and stage actions'，与E项 Peking Opera 中的'learn to draw simple Peking Opera facial makeup and practice basic stage movements and postures'完全对应。", matchKeywords: {left: ["opera makeup skills", "stage actions"], right: ["Peking Opera facial makeup", "stage movements and postures"]}},
+        {person: "Jake", match: "F", analysis: "Jake想'play a traditional Chinese instrument'，与F项 Guzheng Playing 中的'traditional Chinese string instrument... learn basic playing skills'对应。", matchKeywords: {left: ["traditional Chinese instrument"], right: ["traditional Chinese string instrument", "playing skills"]}},
+        {person: "Tony", match: "D", analysis: "Tony计划'make traditional Chinese figures with soft clay'，与D项 Clay Figure Making 中的'shape clay into traditional Chinese figures and small animals... paint them with bright traditional colors'完全对应。", matchKeywords: {left: ["traditional Chinese figures", "soft clay"], right: ["shape clay into traditional Chinese figures"]}}
+      ]
+    },
+    {
+      id: "grammar",
+      name: "语法填空",
+      type: "grammar",
+      article: `In ancient China, women didn't get much education. Xie Daoyun, however, was lucky to be different. She was born into <blank id="36"></blank> large family, many of whose members were officials. Her uncle Xie An (320-385) even rose to become the prime minister.\n\nOfficials often got together at Xie An's home. The young Xie Daoyun <blank id="37" hint="learn"></blank> a lot from their discussions. By the time she was in her teens, she had already been skilled at <blank id="38" hint="write"></blank> poems.\n\nOnce, <blank id="39"></blank> a cold day, Xie An gathered his nephews and nieces to discuss poetry and literature. Shortly after, heavy snow began to fall. Xie An thought it was a chance to inspire the young <blank id="40" hint="mind"></blank>, so he asked them what the snow looked like.\n\nXie Lang, Xie Daoyun's brother, quickly replied, "Like salt poured from the sky." <blank id="41"></blank> Xie Daoyun gave a different answer: "Isn't it like a sky full of willow catkins dancing in the wind?"\n\nXie An laughed <blank id="42" hint="joyful"></blank>. Xie Lang's answer was acceptable, but Xie Daoyun's was far more natural. She stood out among the young people <blank id="43"></blank> won her uncle's admiration.\n\nAfter that, the story of Xie Daoyun started to spread across the country. Soon, her story <blank id="44" hint="take"></blank> as an example. When people wanted to praise a <blank id="45" hint="talent"></blank> woman, they would say she possessed "the wit of the willow catkin poet".`,
+      questions: [
+        {num: 36, answer: "a", point: "冠词", analysis: "'born into __ large family'表示'出生在一个大家庭'，为泛指，且 large 以辅音音素开头，故填不定冠词 a。", sentence: "She was born into <u>a</u> large family, many of whose members were officials.", sentenceAnalysis: "【句子结构】主语(She) + 谓语(was born into) + 宾语(<u>a</u> large family), 后接非限制性定语从句(many of whose members were officials)修饰family。", hint: "", keywords: ["born into", "large family", "泛指"]},
+        {num: 37, answer: "learned / learnt", point: "动词时态", analysis: "全文叙述古代故事，主体时态为一般过去时。此处应用 learn 的过去式 learned 或 learnt。", sentence: "The young Xie Daoyun <u>learned</u> a lot from their discussions.", sentenceAnalysis: "【句子结构】主语(The young Xie Daoyun) + 谓语(<u>learned</u>) + 宾语(a lot) + 状语(from their discussions)。【考点】learn from 从……中学到。", hint: "learn", keywords: ["learned", "过去式", "一般过去时"]},
+        {num: 38, answer: "writing", point: "非谓语动词（动名词）", analysis: "固定搭配 be skilled at doing sth.（擅长做某事），at 为介词，后接动词 -ing 形式。", sentence: "she had already been skilled at <u>writing</u> poems.", sentenceAnalysis: "【句子结构】主语(she) + 谓语(had been skilled at) + 宾语(<u>writing</u> poems)。【考点】be skilled at + doing 擅长做某事。", hint: "write", keywords: ["be skilled at", "writing", "动名词"]},
+        {num: 39, answer: "on", point: "介词", analysis: "在具体某一天（如 a cold day）前用介词 on。", sentence: "Once, <u>on</u> a cold day, Xie An gathered his nephews and nieces...", sentenceAnalysis: "【句子结构】时间状语(Once, <u>on</u> a cold day) + 主语(Xie An) + 谓语(gathered) + 宾语(his nephews and nieces) + 目的状语(to discuss poetry and literature)。【考点】具体某天前用 on。", hint: "", keywords: ["on", "具体某天", "介词"]},
+        {num: 40, answer: "minds", point: "名词复数", analysis: "young 为形容词，后接名词。mind 作'头脑、思想'讲时为可数名词，此处指激发年轻人的思想，应用复数形式 minds。", sentence: "Xie An thought it was a chance to inspire the young <u>minds</u>...", sentenceAnalysis: "【句子结构】主语(Xie An) + 谓语(thought) + 宾语从句(it was a chance to inspire the young <u>minds</u>)。【考点】mind 表示'头脑'时是可数名词，the young minds = 年轻人的思想。", hint: "mind", keywords: ["minds", "复数", "young minds"]},
+        {num: 41, answer: "But", point: "连词（并列连词）", analysis: "前文谢朗回答'像空中撒盐'，后文谢道韫给出不同答案，前后为转折关系，故填 But。", sentence: "<u>But</u> Xie Daoyun gave a different answer...", sentenceAnalysis: "【句子结构】连词(<u>But</u>) + 主语(Xie Daoyun) + 谓语(gave) + 宾语(a different answer)。【考点】前后语义转折，注意句首大写。", hint: "", keywords: ["But", "转折", "different answer"]},
+        {num: 42, answer: "joyfully", point: "词性转换（形容词变副词）", analysis: "此处修饰动词 laughed，需用副词形式。joyful 的副词为 joyfully。", sentence: "Xie An laughed <u>joyfully</u>.", sentenceAnalysis: "【句子结构】主语(Xie An) + 谓语(laughed) + 状语(<u>joyfully</u>)。【考点】形容词→副词：joyful + ly = joyfully，修饰动词用副词。", hint: "joyful", keywords: ["joyfully", "副词", "修饰laughed"]},
+        {num: 43, answer: "and", point: "连词（并列连词）", analysis: "前后两个谓语动词 stood out 和 won 为并列关系，故填 and。", sentence: "She stood out among the young people <u>and</u> won her uncle's admiration.", sentenceAnalysis: "【句子结构】主语(She) + 谓语1(stood out) + 并列连词(<u>and</u>) + 谓语2(won) + 宾语(her uncle's admiration)。【考点】and 连接两个并列谓语。", hint: "", keywords: ["and", "并列", "stood out and won"]},
+        {num: 44, answer: "was taken", point: "动词时态和语态", analysis: "'她的故事被当作榜样'，主语 her story 与 take 之间为被动关系，且叙述过去的事，应用一般过去时的被动语态。", sentence: "her story <u>was taken</u> as an example.", sentenceAnalysis: "【句子结构】主语(her story) + 谓语(<u>was taken</u>) + 状语(as an example)。【考点】一般过去时被动语态：was/were + done。固定搭配 be taken as（被当作……）。", hint: "take", keywords: ["was taken", "被动语态", "be taken as"]},
+        {num: 45, answer: "talented", point: "词性转换（名词变形容词）", analysis: "此处修饰名词 woman，需用形容词形式。talent 的形容词为 talented。", sentence: "praise a <u>talented</u> woman", sentenceAnalysis: "【句子结构】动词(praise) + 宾语(a <u>talented</u> woman)。【考点】名词→形容词：talent → talented，形容词修饰名词 woman。", hint: "talent", keywords: ["talented", "形容词", "修饰woman"]}
+      ]
+    }
+  ]
+};
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = EXAM_DATA;
+}
+
+</script>
+<script>
+var mode='test',step=false,curIdx=0,curSec=0,font='md';
+
+function setMode(m){
+  mode=m;
+  var btns=document.querySelectorAll('.mb');
+  for(var i=0;i<btns.length;i++){
+    var b=btns[i];
+    if(mode=='test' && b.textContent.indexOf('试题')>=0){
+      b.classList.add('a');
+    }else if(mode=='analysis' && b.textContent.indexOf('讲解')>=0){
+      b.classList.add('a');
+    }else{
+      b.classList.remove('a');
+    }
+  }
+  render();
+}
+
+function toggleStep(){
+  step=!step;
+  var sbEl=document.getElementById('stepBtn');
+  if(step){sbEl.classList.add('a');}else{sbEl.classList.remove('a');}
+  curIdx=0;
+  render();
+}
+
+function setFont(s){
+  font=s;
+  document.body.className=s;
+}
+
+function getSecTotal(sec){
+  if(sec.questions && sec.questions.length>0) return sec.questions.length;
+  if(sec.answers && sec.answers.length>0) return sec.answers.length;
+  return 0;
+}
+
+function initTabs(){
+  var r=document.getElementById('tabRow');
+  r.innerHTML='';
+  var secs=EXAM_DATA.sections;
+  for(var i=0;i<secs.length;i++){
+    var d=document.createElement('div');
+    d.className='tt'+(i===0?' a':'');
+    d.textContent=secs[i].name;
+    d.onclick=(function(idx){
+      return function(){
+        curSec=idx;
+        curIdx=0;
+        var tabs=document.querySelectorAll('.tt');
+        for(var j=0;j<tabs.length;j++){
+          if(j===idx){tabs[j].classList.add('a');}else{tabs[j].classList.remove('a');}
+        }
+        render();
+      };
+    })(i);
+    r.appendChild(d);
+  }
+}
+
+function render(){
+  var sec=EXAM_DATA.sections[curSec];
+  if(!sec) return;
+  document.getElementById('leftP').innerHTML=renderLeft(sec);
+  document.getElementById('rightP').innerHTML=renderRight(sec);
+}
+
+function renderLeft(sec){
+  if(sec.id=='cloze') return rClozeL(sec);
+  if(sec.id && sec.id.indexOf('reading')==0) return rReadL(sec);
+  if(sec.id=='restore') return rRestoreL(sec);
+  if(sec.id=='match') return rMatchL(sec);
+  if(sec.id=='grammar') return rGramL(sec);
+  return '<p>暂无</p>';
+}
+
+function renderRight(sec){
+  if(sec.id=='cloze') return rClozeR(sec);
+  if(sec.id && sec.id.indexOf('reading')==0) return rReadR(sec);
+  if(sec.id=='restore') return rRestoreR(sec);
+  if(sec.id=='match') return rMatchR(sec);
+  if(sec.id=='grammar') return rGramR(sec);
+  return '<p>暂无</p>';
+}
+
+/* ========== 完形填空 ========== */
+function rClozeL(sec){
+  var h='<div class="art">';
+  var a=sec.article||'';
+  var pa=a.split(/<blank id="(\d+)"><\/blank>/);
+  for(var i=0;i<pa.length;i+=2){
+    var t=pa[i];
+    if(mode=='analysis'){
+      h+=hClue(t,sec);
+    }else{
+      h+=esc(t);
+    }
+    if(i+1<pa.length){
+      var n=parseInt(pa[i+1],10);
+      var q=findQuestion(sec.questions,n);
+      if(mode=='test'){
+        h+='<span class="bx">['+n+']</span>';
+      }else{
+        var aw='';
+        if(q && q.options && q.answer && q.options[q.answer]){
+          aw=q.options[q.answer];
+        }
+        h+='<span class="bx h">'+n+'. '+aw+'</span>';
+      }
+    }
+  }
+  h+='</div>';
+  return h;
+}
+
+function hClue(t,sec){
+  var s=t;
+  var qs=sec.questions||[];
+  for(var qi=0;qi<qs.length;qi++){
+    var q=qs[qi];
+    if(q.clueWords && q.clueWords.length>0){
+      for(var wi=0;wi<q.clueWords.length;wi++){
+        var w=q.clueWords[wi];
+        var re=escRegex(w);
+        s=s.replace(new RegExp('('+re+')','gi'),'<span class="hl">$1</span>');
+      }
+    }
+  }
+  return s;
+}
+
+function rClozeR(sec){
+  var qs=sec.questions||[];
+  var total=qs.length;
+  if(total===0) return '<p>暂无题目</p>';
+  var st=0,en=total;
+  if(step){
+    st=Math.max(0,Math.min(curIdx,total-1));
+    en=Math.min(total,st+1);
+  }
+  var h='';
+  for(var i=st;i<en;i++){
+    h+=r1Cloze(qs[i]);
+  }
+  if(step && total>1){
+    h=sb(h,total,st);
+  }
+  return h;
+}
+
+function r1Cloze(q){
+  var ia=(mode=='analysis');
+  var ans=q.answer||'';
+  var h='<div class="qi"><div class="qn">第'+q.num+'题</div>';
+  if(q.stem) h+='<div class="qs">'+esc(q.stem)+'</div>';
+  h+='<div class="op">';
+  var lt=['A','B','C','D'];
+  for(var k=0;k<lt.length;k++){
+    var txt=q.options[lt[k]]||'';
+    var cls='ot';
+    if(ia && lt[k]===ans) cls+=' c';
+    if(ia && lt[k]!==ans) cls+=' w';
+    h+='<div class="'+cls+'">'+lt[k]+'. '+esc(txt)+'</div>';
+  }
+  h+='</div>';
+  if(ia && q.analysis){
+    h+='<div class="an"><div class="sti">考点：'+esc(q.point)+'</div><div class="stb">'+esc(q.analysis)+'</div>';
+    if(q.distractors) h+='<div style="margin-top:4px;color:#888;font-size:.82em">干扰项分析：'+esc(q.distractors)+'</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+  return h;
+}
+
+/* ========== 阅读理解 ========== */
+function rReadL(sec){
+  var ps=sec.paragraphs||[];
+  var h='';
+  for(var i=0;i<ps.length;i++){
+    var p=ps[i];
+    var enText=p.en||'';
+    if(mode=='analysis'){
+      enText=hReadKw(enText,sec);
+    }else{
+      enText=esc(enText);
+    }
+    h+='<div class="pb"><div class="pe">'+enText+'</div>';
+    if(p.zh){
+      h+='<div class="pz" id="tr_'+curSec+'_'+i+'">'+esc(p.zh)+'</div>';
+    }
+    h+='<button class="ht" onclick="togTr('+curSec+','+i+')">中译</button></div>';
+  }
+  return h;
+}
+
+function hReadKw(t,sec){
+  var s=t;
+  var qs=sec.questions||[];
+  for(var qi=0;qi<qs.length;qi++){
+    var q=qs[qi];
+    if(q.evidenceKeywords && q.evidenceKeywords.length>0){
+      for(var wi=0;wi<q.evidenceKeywords.length;wi++){
+        var w=q.evidenceKeywords[wi];
+        var re=escRegex(w);
+        s=s.replace(new RegExp('('+re+')','gi'),'<span class="hl">$1<span class="cb">'+(q.num)+'</span></span>');
+      }
+    }
+  }
+  return s;
+}
+
+function rReadR(sec){
+  var qs=sec.questions||[];
+  var total=qs.length;
+  if(total===0) return '<p>暂无题目</p>';
+  var st=0,en=total;
+  if(step){
+    st=Math.max(0,Math.min(curIdx,total-1));
+    en=Math.min(total,st+1);
+  }
+  var h='';
+  for(var i=st;i<en;i++){
+    h+=r1Read(qs[i]);
+  }
+  if(step && total>1){
+    h=sb(h,total,st);
+  }
+  return h;
+}
+
+function r1Read(q){
+  var ia=(mode=='analysis');
+  var ans=q.answer||'';
+  var h='<div class="qi"><div class="qn">第'+q.num+'题</div>';
+  if(q.stem) h+='<div class="qs">'+esc(q.stem)+'</div>';
+  h+='<div class="op">';
+  var lt=['A','B','C','D'];
+  for(var k=0;k<lt.length;k++){
+    var txt=q.options[lt[k]]||'';
+    var cls='ot';
+    if(ia && lt[k]===ans) cls+=' c';
+    if(ia && lt[k]!==ans) cls+=' w';
+    h+='<div class="'+cls+'">'+lt[k]+'. '+esc(txt)+'</div>';
+  }
+  h+='</div>';
+  if(ia && q.analysis){
+    h+='<div class="an"><div class="sti">考点：'+esc(q.point)+'</div><div class="stb">'+esc(q.analysis)+'</div>';
+    if(q.evidence) h+='<div class="nt">原文依据：'+esc(q.evidence)+'</div>';
+    if(q.distractors) h+='<div style="margin-top:4px;color:#888;font-size:.82em">干扰项分析：'+esc(q.distractors)+'</div>';
+    h+='</div>';
+  }
+  /* 结构题（第25题）特殊处理 */
+  if(q.num===25 && ia){
+    h+='<div class="an" style="border-left-color:#e67e22"><div class="sti">📐 篇章结构分析</div><div class="stb">'+esc(q.analysis)+'</div></div>';
+  }
+  h+='</div>';
+  return h;
+}
+
+function togTr(s,p){
+  var el=document.getElementById('tr_'+s+'_'+p);
+  if(el) el.classList.toggle('s');
+}
+
+/* ========== 还原句子 ========== */
+function rRestoreL(sec){
+  var ps=sec.paragraphs||[];
+  var h='';
+  for(var i=0;i<ps.length;i++){
+    var p=ps[i];
+    var en=p.en||'';
+    var pa=en.split(/<blank id="(\d+)"><\/blank>/);
+    var eh='';
+    for(var j=0;j<pa.length;j+=2){
+      eh+=esc(pa[j]);
+      if(j+1<pa.length){
+        var n=parseInt(pa[j+1],10);
+        if(mode=='test'){
+          eh+='<span class="bx d">['+n+']</span>';
+        }else{
+          var ansObj=findAnswer(sec.answers,n);
+          var lt=ansObj?ansObj.answer:'';
+          var optTxt='';
+          if(lt && sec.options){
+            for(var oi=0;oi<sec.options.length;oi++){
+              if(sec.options[oi].id===lt){
+                optTxt=sec.options[oi].text;
+                break;
+              }
+            }
+          }
+          eh+='<span style="display:inline-block;padding:2px 6px;background:#e8f8f0;border:2px solid #27ae60;border-radius:5px;margin:0 3px;font-size:.88em;color:#27ae60;font-weight:600;vertical-align:middle">'+n+'. '+lt+'. '+esc(optTxt)+'</span>';
+        }
+      }
+    }
+    h+='<div class="pb"><div class="pe">'+eh+'</div>';
+    if(p.zh){
+      h+='<div class="pz" id="tr_'+curSec+'_'+i+'">'+esc(p.zh)+'</div>';
+    }
+    h+='<button class="ht" onclick="togTr('+curSec+','+i+')">中译</button></div>';
+  }
+  return h;
+}
+
+function rRestoreR(sec){
+  if(mode=='test'){
+    var opts=sec.options||[];
+    var h='<div style="font-size:.9em"><div style="font-weight:600;margin-bottom:8px;color:#555">选择恰当的选项填入文中空缺处：</div>';
+    for(var i=0;i<opts.length;i++){
+      h+='<div class="ot" style="margin-bottom:6px"><b>'+opts[i].id+'.</b> '+esc(opts[i].text)+'</div>';
+    }
+    return h+'</div>';
+  }
+  var ansArr=sec.answers||[];
+  var total=ansArr.length;
+  if(total===0) return '<p>暂无</p>';
+  var st=0,en=total;
+  if(step){
+    st=Math.max(0,Math.min(curIdx,total-1));
+    en=Math.min(total,st+1);
+  }
+  var h='';
+  for(var i=st;i<en;i++){
+    var a=ansArr[i];
+    h+='<div class="qi"><div class="qn">第'+a.blank+'题 <span style="color:#27ae60;font-weight:600">答案：'+a.answer+'</span></div>';
+    if(a.analysis) h+='<div class="stb" style="margin-bottom:5px">解析：'+esc(a.analysis)+'</div>';
+    if(a.clueBefore) h+='<div style="font-size:.82em;color:#555;margin-bottom:3px"><b>前文线索：</b>'+esc(a.clueBefore)+'</div>';
+    if(a.clueAfter) h+='<div style="font-size:.82em;color:#555;margin-bottom:3px"><b>后文线索：</b>'+esc(a.clueAfter)+'</div>';
+    if(a.clueKeywords && a.clueKeywords.length>0){
+      h+='<div style="font-size:.82em;color:#e74c3c"><b>关键词：</b>'+a.clueKeywords.join('、')+'</div>';
+    }
+    h+='</div>';
+  }
+  if(step && total>1){
+    h=sb(h,total,st);
+  }
+  return h;
+}
+
+/* ========== 信息匹配 ========== */
+function rMatchL(sec){
+  var ps=sec.left||[];
+  var h='<div style="font-size:.95em;line-height:1.9">';
+  for(var i=0;i<ps.length;i++){
+    var p=ps[i];
+    h+='<div class="pb"><div style="display:inline-flex;align-items:center;gap:4px;margin-bottom:3px"><span class="cb">'+p.num+'</span><span style="font-weight:600;color:#3498db">'+esc(p.id)+'</span></div><div style="font-size:.88em;color:#555">'+esc(p.text)+'</div>';
+    if(p.zh){
+      h+='<div class="pz" id="mt_'+curSec+'_'+i+'">'+esc(p.zh)+'</div>';
+    }
+    h+='<button class="ht" onclick="togMt('+curSec+','+i+')">中译</button></div>';
+  }
+  return h+'</div>';
+}
+
+function togMt(s,i){
+  var el=document.getElementById('mt_'+s+'_'+i);
+  if(el) el.classList.toggle('s');
+}
+
+function rMatchR(sec){
+  var courses=sec.right||[];
+  if(mode=='test'){
+    var h='<div style="font-size:.88em"><div style="font-weight:600;margin-bottom:8px;color:#555">课程选项：</div>';
+    for(var i=0;i<courses.length;i++){
+      var c=courses[i];
+      h+='<div class="ot" style="margin-bottom:6px"><b>['+c.id+'] '+esc(c.title)+'</b><br><span style="color:#555;font-size:.9em">'+esc(c.text)+'</span></div>';
+    }
+    return h+'</div>';
+  }
+  /* 讲解模式：按答案顺序，左边需求+右边完整课程描述+线索词高亮 */
+  var ansArr=sec.answers||[];
+  var total=ansArr.length;
+  var st=0,en=total;
+  if(step){
+    st=Math.max(0,Math.min(curIdx,total-1));
+    en=Math.min(total,st+1);
+  }
+  var h='';
+  for(var i=st;i<en;i++){
+    var a=ansArr[i];
+    var person=findPerson(sec.left,a.person);
+    var course=findCourse(courses,a.match);
+    if(!person || !course) continue;
+    h+='<div class="ot c" style="margin-bottom:8px">';
+    h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px"><span class="cb">'+person.num+'</span><span style="font-weight:600">'+esc(person.id)+'</span><span style="color:#999">→</span><span style="font-weight:600;color:#27ae60">'+a.match+'. '+esc(course.title)+'</span></div>';
+    /* 左侧需求 + 线索词高亮 */
+    h+='<div style="font-size:.85em;color:#333;margin-bottom:4px">';
+    if(a.matchKeywords && a.matchKeywords.left){
+      h+=hKWHl(person.text,a.matchKeywords.left);
+    }else{
+      h+=esc(person.text);
+    }
+    h+='</div>';
+    /* 右侧完整课程描述 + 线索词高亮 */
+    h+='<div style="font-size:.85em;color:#555;padding-left:12px;border-left:2px solid #27ae60">';
+    h+='<b style="color:#27ae60">'+a.match+'. '+esc(course.title)+'</b><br>';
+    if(a.matchKeywords && a.matchKeywords.right){
+      h+=hKWHl(course.text,a.matchKeywords.right);
+    }else{
+      h+=esc(course.text);
+    }
+    h+='</div>';
+    /* 解析 */
+    if(a.analysis) h+='<div style="font-size:.82em;color:#888;margin-top:4px;padding:4px 8px;background:#f0faf0;border-radius:3px">'+esc(a.analysis)+'</div>';
+    h+='</div>';
+  }
+  if(step && total>1){
+    h=sb(h,total,st);
+  }
+  return h;
+}
+
+/* 在原文本中对关键词列表做高亮 */
+function hKWHl(text,kwArr){
+  if(!text) return '';
+  var s=esc(text);
+  for(var i=0;i<kwArr.length;i++){
+    var w=kwArr[i];
+    var re=escRegex(w);
+    s=s.replace(new RegExp('('+re+')','gi'),'<span class="hl">$1</span>');
+  }
+  return s;
+}
+
+function hMatchKw(pt,ct,ans){
+  var mkw=ans.matchKeywords;
+  if(!mkw) return '';
+  var leftText=pt;
+  var rightText=ct;
+  if(mkw.left){
+    for(var i=0;i<mkw.left.length;i++){
+      var w=mkw.left[i];
+      var re=escRegex(w);
+      leftText=leftText.replace(new RegExp('('+re+')','gi'),'<span class="hl">$1</span>');
+    }
+  }
+  if(mkw.right){
+    for(var i=0;i<mkw.right.length;i++){
+      var w=mkw.right[i];
+      var re=escRegex(w);
+      rightText=rightText.replace(new RegExp('('+re+')','gi'),'<span class="hl">$1</span>');
+    }
+  }
+  return '<b>需求：</b>'+leftText+'<br><b>课程：</b>'+rightText;
+}
+
+function findPerson(arr,id){
+  for(var i=0;i<arr.length;i++){
+    if(arr[i].id===id) return arr[i];
+  }
+  return null;
+}
+
+function findCourse(arr,id){
+  for(var i=0;i<arr.length;i++){
+    if(arr[i].id===id) return arr[i];
+  }
+  return null;
+}
+
+function rGramLine(s){
+  if(!s) return '';
+  return s;
+}
+
+/* ========== 语法填空 ========== */
+function rGramL(sec){
+  var h='<div class="art">';
+  var a=sec.article||'';
+  var pa=a.split(/<blank id="(\d+)"(?: hint="([^"]*)")?><\/blank>/);
+  for(var i=0;i<pa.length;i+=3){
+    var t=pa[i];
+    h+=esc(t);
+    if(i+1<pa.length){
+      var n=parseInt(pa[i+1],10);
+      var hint=pa[i+2]||'';
+      var q=findQuestion(sec.questions,n);
+      var aw=q?q.answer:'';
+      if(mode=='test'){
+        /* 试题模式：题号[ ](提示词) — 提示词字体与正文一致 */
+        h+='<span style="display:inline;vertical-align:middle;margin:0 2px">';
+        h+='<span class="bx">'+n+' [ ]</span>';
+        if(hint){
+          h+=' <span style="font-size:1em;color:#333;font-family:inherit">('+hint+')</span>';
+        }
+        h+='</span>';
+      }else{
+        /* 讲解模式：红色框显示答案，隐藏提示词 */
+        h+='<span style="display:inline;vertical-align:middle;margin:0 2px"><span class="bx r">'+n+'. '+esc(aw)+'</span></span>';
+      }
+    }
+  }
+  h+='</div>';
+  return h;
+}
+
+function rGramR(sec){
+  var qs=sec.questions||[];
+  var total=qs.length;
+  if(mode=='test'){
+    /* 语法填空试题模式：右侧留白 */
+    return '<div style="text-align:center;color:#bbb;padding:40px 0;font-size:.9em">试题模式下，请直接在左侧文章中作答</div>';
+  }
+  if(total===0) return '<p>暂无题目</p>';
+  var st=0,en=total;
+  if(step){
+    st=Math.max(0,Math.min(curIdx,total-1));
+    en=Math.min(total,st+1);
+  }
+  var h='';
+  for(var i=st;i<en;i++){
+    var q=qs[i];
+    h+='<div class="qi"><div class="qn">第'+q.num+'题';
+    if(q.point){
+      h+=' <span class="opti">'+esc(q.point)+'</span>';
+    }
+    h+='</div>';
+    h+='<div style="font-weight:600;color:#e74c3c;margin-bottom:4px;font-size:.9em">答案：'+esc(q.answer)+'</div>';
+    if(q.sentence) h+='<div class="stb" style="margin-bottom:5px">'+rGramLine(q.sentence)+'</div>';
+    if(q.sentenceAnalysis) h+='<div style="font-size:.82em;color:#555;margin-bottom:5px"><b>句子分析：</b>'+rGramLine(q.sentenceAnalysis)+'</div>';
+    if(q.analysis) h+='<div class="an"><div class="stb">'+esc(q.analysis)+'</div></div>';
+    if(q.keywords && q.keywords.length>0){
+      h+='<div style="font-size:.82em;color:#e74c3c;margin-top:4px"><b>关键词：</b>'+q.keywords.join('、')+'</div>';
+    }
+    h+='</div>';
+  }
+  if(step && total>1){
+    h=sb(h,total,st);
+  }
+  return h;
+}
+
+/* ========== 辅助函数 ========== */
+function esc(s){
+  if(!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function escRegex(s){
+  if(!s) return '';
+  return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+}
+
+function findQuestion(qs,num){
+  if(!qs) return null;
+  for(var i=0;i<qs.length;i++){
+    if(qs[i].num===num) return qs[i];
+  }
+  return null;
+}
+
+function findAnswer(ansArr,n){
+  if(!ansArr) return null;
+  for(var i=0;i<ansArr.length;i++){
+    if(ansArr[i].blank===n) return ansArr[i];
+  }
+  return null;
+}
+
+function sb(inner,total,cur){
+  return '<div class="sbr s"><button class="sb" onclick="sp()">&#9664;</button><span style="font-size:.82em;color:#666">'+(cur+1)+'/'+total+'</span><button class="sb" onclick="sn()">&#9654;</button></div>'+inner;
+}
+
+function sp(){
+  if(curIdx>0){
+    curIdx--;
+    render();
+  }
+}
+
+function sn(){
+  var sec=EXAM_DATA.sections[curSec];
+  var total=getSecTotal(sec);
+  if(curIdx<total-1){
+    curIdx++;
+    render();
+  }
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  initTabs();
+  render();
+});
+</script>
+</body>
+</html>
